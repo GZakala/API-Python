@@ -77,12 +77,12 @@ class FurniturePhotosPipeline(ImagesPipeline):
     
     def item_completed(self, results, item, info):
         item['photos'] = [itm[1] for itm in results if itm[0]]
+        
         return item
 
     def file_path(self, request, response=None, info=None, *, item=None):
         image_url_hash = hashlib.shake_256(request.url.encode()).hexdigest(5)
-        title = item['title'].split(' ')[:1]
-        title = '_'.join(title)
+        title = item['title'].split(' ')[0]
         image_filename = f'full/{title}/{image_url_hash}_{image_url_hash[3]}.jpg'
 
         return image_filename
